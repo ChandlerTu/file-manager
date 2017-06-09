@@ -4,14 +4,14 @@ import java.io.File;
 
 public class EmptyDirectoryCleaner {
 
-	public static void clean(File file) {
-		if (file.isDirectory()) {
-			File[] files = file.listFiles();
-			for (File subFile : files) {
-				clean(subFile);
+	public static void clean(File parent) {
+		if (parent.isDirectory()) {
+			File[] files = parent.listFiles();
+			for (File file : files) {
+				clean(file);
 			}
-			if (file.delete()) {
-				System.out.println("É¾³ý£º" + file.getAbsolutePath());
+			if (parent.delete()) {
+				System.out.println("É¾³ý£º" + parent.getAbsolutePath());
 			}
 		}
 	}
