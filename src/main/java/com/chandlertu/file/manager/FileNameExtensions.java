@@ -13,7 +13,7 @@ public class FileNameExtensions {
 	public static final String APE = ".ape";
 
 	public static String getFileNameExtension(Path path) {
-		String s = path.toString();
+		String s = path.getFileName().toString();
 		int index = s.lastIndexOf(".");
 		if (index > 0) {
 			return s.substring(index);
