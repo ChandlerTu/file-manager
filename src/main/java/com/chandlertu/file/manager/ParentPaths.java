@@ -5,25 +5,25 @@ import java.nio.file.Paths;
 
 public class ParentPaths {
 
-	public static final Path files = Paths.get("C:\\文件");
-	public static final Path favorites = files.resolve("收藏");
-	public static final Path videos = files.resolve("视频");
-	public static final Path pictures = files.resolve("图片");
-	public static final Path documents = files.resolve("文档");
-	public static final Path music = files.resolve("音乐");
+	public static final Path FILES = Paths.get("C:\\文件");
+	public static final Path FAVORITES = FILES.resolve("收藏");
+	public static final Path VIDEOS = FILES.resolve("视频");
+	public static final Path PICTURES = FILES.resolve("图片");
+	public static final Path DOCUMENTS = FILES.resolve("文档");
+	public static final Path MUSIC = FILES.resolve("音乐");
 
 	public static Path getParentPath(String fileType, String fileNameExtension) {
 		switch (fileType) {
-		case FileTypes.favorite:
-			return favorites;
-		case FileTypes.video:
-			return videos;
-		case FileTypes.picture:
-			return pictures;
-		case FileTypes.music:
-			return music;
+		case FileTypes.FAVORITE:
+			return FAVORITES;
+		case FileTypes.VIDEO:
+			return VIDEOS;
+		case FileTypes.PICTURE:
+			return PICTURES;
+		case FileTypes.MUSIC:
+			return MUSIC;
 		default:
-			return documents.resolve(fileNameExtension.substring(1));
+			return DOCUMENTS.resolve(fileNameExtension.substring(1));
 		}
 	}
 
