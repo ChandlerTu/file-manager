@@ -13,17 +13,18 @@ public class ParentPaths {
 	public static final Path MUSIC = FILES.resolve("“Ù¿÷");
 
 	public static Path getParentPath(String fileType, String fileNameExtension) {
+		String s = fileNameExtension.substring(1);
 		switch (fileType) {
 		case FileTypes.FAVORITE:
-			return FAVORITES;
+			return FAVORITES.resolve(s);
 		case FileTypes.VIDEO:
-			return VIDEOS;
+			return VIDEOS.resolve(s);
 		case FileTypes.PICTURE:
-			return PICTURES;
+			return PICTURES.resolve(s);
 		case FileTypes.MUSIC:
-			return MUSIC;
+			return MUSIC.resolve(s);
 		default:
-			return DOCUMENTS.resolve(fileNameExtension.substring(1));
+			return DOCUMENTS.resolve(s);
 		}
 	}
 

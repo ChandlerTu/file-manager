@@ -13,13 +13,18 @@ public class FileTypes {
 		case FileNameExtensions.URL:
 			return FAVORITE;
 		case FileNameExtensions.MP4:
+		case FileNameExtensions.MOV:
 			return VIDEO;
 		case FileNameExtensions.JPG:
 		case FileNameExtensions.PNG:
+		case FileNameExtensions.GIF:
+		case FileNameExtensions.BMP:
+		case FileNameExtensions.PSD:
 			return PICTURE;
 		case FileNameExtensions.FLAC:
 		case FileNameExtensions.WAV:
 		case FileNameExtensions.APE:
+		case FileNameExtensions.MP3:
 			return MUSIC;
 		default:
 			return DOCUMENT;
