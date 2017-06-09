@@ -10,7 +10,7 @@ public class EmptyDirectoryCleanerTest {
 	@Test
 	public void test() {
 		Path path = Paths.get("C:\\нд╪Ч");
-		EmptyDirectoryCleaner.clean(path.toFile());
+		EmptyDirectoryCleaner.clean(path);
 	}
 
 }

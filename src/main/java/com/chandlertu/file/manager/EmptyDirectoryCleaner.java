@@ -1,6 +1,7 @@
 package com.chandlertu.file.manager;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class EmptyDirectoryCleaner {
 
@@ -14,6 +15,10 @@ public class EmptyDirectoryCleaner {
 				System.out.println("É¾³ý£º" + parent.getAbsolutePath());
 			}
 		}
+	}
+
+	public static void clean(Path parent) {
+		clean(parent.toFile());
 	}
 
 }
