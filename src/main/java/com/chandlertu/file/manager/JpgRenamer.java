@@ -14,7 +14,15 @@ import java.util.stream.Stream;
 public class JpgRenamer {
 
 	public static DateFormat destDateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
-	public static Path parentPath = Paths.get("D:\\Files\\jpg\\FileModifyDate2");
+	public static Path parentPath = Paths.get("D:\\Files\\Pictures\\png2");
+
+	public static void rename(Path dir) {
+		try (Stream<Path> paths = Files.walk(dir)) {
+			paths.filter(path -> Files.isDirectory(path) == false).forEach(path -> renameFile(path.toFile()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void rename(Path dir, String pattern) {
 		try (Stream<Path> paths = Files.walk(dir)) {
@@ -42,6 +50,11 @@ public class JpgRenamer {
 		}
 	}
 
+	public static void renameFile(File file) {
+		long destTime = getDestTime(file);
+		rename(file, getDest(destTime, file));
+	}
+
 	public static void renameFile(File file, String pattern) {
 		long destTime = getDestTime(file, pattern);
 		rename(file, getDest(destTime, file));
@@ -55,6 +68,10 @@ public class JpgRenamer {
 	public static void renameFile(File file, String time, String timePattern) {
 		long destTime = getDestTime(file, time, timePattern);
 		rename(file, getDest(destTime, file));
+	}
+
+	public static long getDestTime(File file) {
+		return file.lastModified();
 	}
 
 	public static long getDestTime(File file, String pattern) {
@@ -110,7 +127,9 @@ public class JpgRenamer {
 
 	public static File getDest(long destTime, File file) {
 		String destTimeString = destDateFormat.format(new Date(destTime));
-		String destName = destTimeString + "-" + file.length() + ".jpg";
+		String fileName = file.getName();
+		String extension = fileName.substring(fileName.indexOf("."));
+		String destName = destTimeString + "-" + file.length() + extension;
 		return parentPath.resolve(destName).toFile();
 	}
 
