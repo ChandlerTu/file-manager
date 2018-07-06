@@ -20,7 +20,7 @@ public class FileNameExtensionCounter {
 			List<Entry<String, Long>> list = new ArrayList<Entry<String, Long>>(map.entrySet());
 			list.sort(Comparator.comparing(Entry::getValue));
 			list.forEach(e -> System.out.println(e.getKey() + ": " + e.getValue()));
-			System.out.println(list.size() + " ¸öÀ©Õ¹Ãû");
+			System.out.println(list.size() + " ä¸ªæ‰©å±•å");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
