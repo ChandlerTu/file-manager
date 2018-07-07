@@ -17,9 +17,6 @@ public class ParentPaths {
 
   public static final Path VIDEOS = FILES.resolve("Videos");
 
-  private ParentPaths() {
-  }
-
   public static Path getParentPath(String fileType, String fileNameExtension) {
     String s = fileNameExtension.substring(1);
     switch (fileType) {
@@ -34,6 +31,9 @@ public class ParentPaths {
       default:
         return DOCUMENTS.resolve(s);
     }
+  }
+
+  private ParentPaths() {
   }
 
 }

@@ -22,11 +22,6 @@ public class FileManagerService {
   @Autowired
   private DirectoryService directoryService;
 
-  public void dir(Path path) {
-    Directory directory = directoryService.list(path);
-    log.info(directory.toString());
-  }
-
   public void countFileNameExtension(Path dir) {
     try (Stream<Path> paths = Files.walk(dir)) {
       Map<String, Long> map = paths.filter(p -> !p.toFile().isDirectory())
@@ -38,6 +33,11 @@ public class FileManagerService {
     } catch (Exception e) {
       log.error("", e);
     }
+  }
+
+  public void dir(Path path) {
+    Directory directory = directoryService.list(path);
+    log.info(directory.toString());
   }
 
   public String getFileNameExtension(Path path) {

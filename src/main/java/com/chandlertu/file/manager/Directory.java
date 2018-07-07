@@ -22,8 +22,6 @@ public class Directory {
   public void addFile(Path path) {
 
   }
-  
-  
 
   public void addSubdirectory(Directory subdirectory) {
     subdirectories.add(subdirectory);
