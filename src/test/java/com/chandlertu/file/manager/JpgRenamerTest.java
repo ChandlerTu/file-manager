@@ -30,5 +30,12 @@ public class JpgRenamerTest {
     Path path = Paths.get("D:\\Files\\Videos\\mov_");
     JpgRenamer.rename(path, "2016_06", "yyyy_MM");
   }
+  
+  @Test
+  public void testRename5() {
+    Path path = Paths.get("D:\\Files\\Pictures\\jpg\\ModifyDate\\2018");
+    JpgRenamer.rename(path, "yyyyMMdd-HHmmss");
+  }
+
 
 }

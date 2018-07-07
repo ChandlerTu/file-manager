@@ -11,6 +11,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.stream.Stream;
 
+import lombok.extern.apachecommons.CommonsLog;
+
+@CommonsLog
 public class JpgRenamer {
 
   public static DateFormat destDateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
@@ -75,7 +78,7 @@ public class JpgRenamer {
     try {
       time = dateFormat.parse(source).getTime();
     } catch (ParseException e) {
-      e.printStackTrace();
+      log.error("", e);
     }
     return time;
   }
@@ -89,6 +92,9 @@ public class JpgRenamer {
     if (file.renameTo(dest)) {
       System.out.println("file: " + file.getAbsolutePath());
       System.out.println("dest: " + dest.getAbsolutePath());
+    } else {
+      file.delete();
+      System.err.println("file: " + file.getAbsolutePath());
     }
   }
 
@@ -97,7 +103,7 @@ public class JpgRenamer {
       paths.filter(path -> Files.isDirectory(path) == false)
           .forEach(path -> renameFile(path.toFile()));
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("", e);
     }
   }
 
@@ -105,8 +111,8 @@ public class JpgRenamer {
     try (Stream<Path> paths = Files.walk(dir)) {
       paths.filter(path -> Files.isDirectory(path) == false)
           .forEach(path -> renameFile(path.toFile(), pattern));
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
+      log.error("", e);
     }
   }
 
@@ -115,7 +121,7 @@ public class JpgRenamer {
       paths.filter(path -> Files.isDirectory(path) == false)
           .forEach(path -> renameFile(path.toFile(), time, timePattern));
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("", e);
     }
   }
 
@@ -124,7 +130,7 @@ public class JpgRenamer {
       paths.filter(path -> Files.isDirectory(path) == false)
           .forEach(path -> renameFile(path.toFile(), pattern, time, timePattern));
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("", e);
     }
   }
 
