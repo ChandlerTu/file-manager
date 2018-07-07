@@ -8,11 +8,11 @@ import org.junit.Test;
 
 public class FilenameExtensionsTest {
 
-	@Test
-	public void test() {
-		Path path = Paths.get("C:\\ÎÄ¼þ\\Í¼Æ¬\\ÎÒ.txt");
-		String fileNameExtension = FileNameExtensions.getFileNameExtension(path);
-		Assert.assertEquals(".txt", fileNameExtension);
-	}
+  @Test
+  public void test() {
+    Path path = Paths.get("C:\\ï¿½Ä¼ï¿½\\Í¼Æ¬\\ï¿½ï¿½.txt");
+    String fileNameExtension = FileNameExtensions.getFileNameExtension(path);
+    Assert.assertEquals(".txt", fileNameExtension);
+  }
 
 }

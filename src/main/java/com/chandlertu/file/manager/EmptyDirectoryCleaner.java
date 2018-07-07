@@ -5,20 +5,20 @@ import java.nio.file.Path;
 
 public class EmptyDirectoryCleaner {
 
-	public static void clean(File parent) {
-		if (parent.isDirectory()) {
-			File[] files = parent.listFiles();
-			for (File file : files) {
-				clean(file);
-			}
-			if (parent.delete()) {
-				System.out.println("É¾³ý£º" + parent.getAbsolutePath());
-			}
-		}
-	}
+  public static void clean(File parent) {
+    if (parent.isDirectory()) {
+      File[] files = parent.listFiles();
+      for (File file : files) {
+        clean(file);
+      }
+      if (parent.delete()) {
+        System.out.println("É¾ï¿½ï¿½ï¿½ï¿½" + parent.getAbsolutePath());
+      }
+    }
+  }
 
-	public static void clean(Path parent) {
-		clean(parent.toFile());
-	}
+  public static void clean(Path parent) {
+    clean(parent.toFile());
+  }
 
 }

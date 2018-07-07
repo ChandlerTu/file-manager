@@ -13,136 +13,139 @@ import java.util.stream.Stream;
 
 public class JpgRenamer {
 
-	public static DateFormat destDateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
-	public static Path parentPath = Paths.get("D:\\Files\\Pictures\\png2");
+  public static DateFormat destDateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
 
-	public static void rename(Path dir) {
-		try (Stream<Path> paths = Files.walk(dir)) {
-			paths.filter(path -> Files.isDirectory(path) == false).forEach(path -> renameFile(path.toFile()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+  public static Path parentPath = Paths.get("D:\\Files\\Pictures\\png2");
 
-	public static void rename(Path dir, String pattern) {
-		try (Stream<Path> paths = Files.walk(dir)) {
-			paths.filter(path -> Files.isDirectory(path) == false).forEach(path -> renameFile(path.toFile(), pattern));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+  public static File getDest(long destTime, File file) {
+    String destTimeString = destDateFormat.format(new Date(destTime));
+    String fileName = file.getName();
+    String extension = fileName.substring(fileName.indexOf("."));
+    String destName = destTimeString + "-" + file.length() + extension;
+    return parentPath.resolve(destName).toFile();
+  }
 
-	public static void rename(Path dir, String pattern, String time, String timePattern) {
-		try (Stream<Path> paths = Files.walk(dir)) {
-			paths.filter(path -> Files.isDirectory(path) == false)
-					.forEach(path -> renameFile(path.toFile(), pattern, time, timePattern));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+  public static long getDestTime(File file) {
+    return file.lastModified();
+  }
 
-	public static void rename(Path dir, String time, String timePattern) {
-		try (Stream<Path> paths = Files.walk(dir)) {
-			paths.filter(path -> Files.isDirectory(path) == false)
-					.forEach(path -> renameFile(path.toFile(), time, timePattern));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+  public static long getDestTime(File file, String pattern) {
+    long destTime;
+    long fileNameTime = getFileNameTime(file.getName(), pattern);
+    long lastModified = file.lastModified();
+    if (fileNameTime < lastModified && fileNameTime != 0) {
+      destTime = fileNameTime;
+    } else {
+      destTime = lastModified;
+    }
+    return destTime;
+  }
 
-	public static void renameFile(File file) {
-		long destTime = getDestTime(file);
-		rename(file, getDest(destTime, file));
-	}
+  public static long getDestTime(File file, String time, String timePattern) {
+    long destTime;
 
-	public static void renameFile(File file, String pattern) {
-		long destTime = getDestTime(file, pattern);
-		rename(file, getDest(destTime, file));
-	}
+    long inputTime = getTime(time, timePattern);
+    long lastModified = file.lastModified();
+    if (inputTime < lastModified && inputTime != 0) {
+      destTime = inputTime;
+    } else {
+      destTime = lastModified;
+    }
 
-	public static void renameFile(File file, String pattern, String time, String timePattern) {
-		long destTime = getDestTime(file, pattern, time, timePattern);
-		rename(file, getDest(destTime, file));
-	}
+    return destTime;
+  }
 
-	public static void renameFile(File file, String time, String timePattern) {
-		long destTime = getDestTime(file, time, timePattern);
-		rename(file, getDest(destTime, file));
-	}
+  public static long getDestTime(File file, String pattern, String time, String timePattern) {
+    long destTime = getDestTime(file, pattern);
+    long inputTime = getTime(time, timePattern);
+    if (inputTime < destTime && inputTime != 0) {
+      destTime = inputTime;
+    }
+    return destTime;
+  }
 
-	public static long getDestTime(File file) {
-		return file.lastModified();
-	}
+  public static long getFileNameTime(String fileName, String pattern) {
+    String source = fileName.substring(0, pattern.length());
+    return getTime(source, pattern);
+  }
 
-	public static long getDestTime(File file, String pattern) {
-		long destTime;
-		long fileNameTime = getFileNameTime(file.getName(), pattern);
-		long lastModified = file.lastModified();
-		if (fileNameTime < lastModified && fileNameTime != 0) {
-			destTime = fileNameTime;
-		} else {
-			destTime = lastModified;
-		}
-		return destTime;
-	}
+  public static long getTime(String source, String pattern) {
+    long time = 0;
+    DateFormat dateFormat = new SimpleDateFormat(pattern);
+    try {
+      time = dateFormat.parse(source).getTime();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return time;
+  }
 
-	public static long getDestTime(File file, String pattern, String time, String timePattern) {
-		long destTime = getDestTime(file, pattern);
-		long inputTime = getTime(time, timePattern);
-		if (inputTime < destTime && inputTime != 0) {
-			destTime = inputTime;
-		}
-		return destTime;
-	}
+  public static void rename(File file, File dest) {
+    File parent = dest.getParentFile();
+    if (!parent.exists()) {
+      parent.mkdirs();
+    }
 
-	public static long getDestTime(File file, String time, String timePattern) {
-		long destTime;
+    if (file.renameTo(dest)) {
+      System.out.println("file: " + file.getAbsolutePath());
+      System.out.println("dest: " + dest.getAbsolutePath());
+    }
+  }
 
-		long inputTime = getTime(time, timePattern);
-		long lastModified = file.lastModified();
-		if (inputTime < lastModified && inputTime != 0) {
-			destTime = inputTime;
-		} else {
-			destTime = lastModified;
-		}
+  public static void rename(Path dir) {
+    try (Stream<Path> paths = Files.walk(dir)) {
+      paths.filter(path -> Files.isDirectory(path) == false)
+          .forEach(path -> renameFile(path.toFile()));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-		return destTime;
-	}
+  public static void rename(Path dir, String pattern) {
+    try (Stream<Path> paths = Files.walk(dir)) {
+      paths.filter(path -> Files.isDirectory(path) == false)
+          .forEach(path -> renameFile(path.toFile(), pattern));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-	public static long getFileNameTime(String fileName, String pattern) {
-		String source = fileName.substring(0, pattern.length());
-		return getTime(source, pattern);
-	}
+  public static void rename(Path dir, String time, String timePattern) {
+    try (Stream<Path> paths = Files.walk(dir)) {
+      paths.filter(path -> Files.isDirectory(path) == false)
+          .forEach(path -> renameFile(path.toFile(), time, timePattern));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-	public static long getTime(String source, String pattern) {
-		long time = 0;
-		DateFormat dateFormat = new SimpleDateFormat(pattern);
-		try {
-			time = dateFormat.parse(source).getTime();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return time;
-	}
+  public static void rename(Path dir, String pattern, String time, String timePattern) {
+    try (Stream<Path> paths = Files.walk(dir)) {
+      paths.filter(path -> Files.isDirectory(path) == false)
+          .forEach(path -> renameFile(path.toFile(), pattern, time, timePattern));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-	public static File getDest(long destTime, File file) {
-		String destTimeString = destDateFormat.format(new Date(destTime));
-		String fileName = file.getName();
-		String extension = fileName.substring(fileName.indexOf("."));
-		String destName = destTimeString + "-" + file.length() + extension;
-		return parentPath.resolve(destName).toFile();
-	}
+  public static void renameFile(File file) {
+    long destTime = getDestTime(file);
+    rename(file, getDest(destTime, file));
+  }
 
-	public static void rename(File file, File dest) {
-		File parent = dest.getParentFile();
-		if (!parent.exists()) {
-			parent.mkdirs();
-		}
+  public static void renameFile(File file, String pattern) {
+    long destTime = getDestTime(file, pattern);
+    rename(file, getDest(destTime, file));
+  }
 
-		if (file.renameTo(dest)) {
-			System.out.println("file: " + file.getAbsolutePath());
-			System.out.println("dest: " + dest.getAbsolutePath());
-		}
-	}
+  public static void renameFile(File file, String time, String timePattern) {
+    long destTime = getDestTime(file, time, timePattern);
+    rename(file, getDest(destTime, file));
+  }
+
+  public static void renameFile(File file, String pattern, String time, String timePattern) {
+    long destTime = getDestTime(file, pattern, time, timePattern);
+    rename(file, getDest(destTime, file));
+  }
 
 }

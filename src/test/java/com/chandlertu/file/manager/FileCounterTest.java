@@ -4,9 +4,9 @@ import org.junit.Test;
 
 public class FileCounterTest {
 
-	@Test
-	public void test() {
-		FileCounter.count(ParentPaths.FILES);
-	}
+  @Test
+  public void test() {
+    FileCounter.count(ParentPaths.FILES);
+  }
 
 }

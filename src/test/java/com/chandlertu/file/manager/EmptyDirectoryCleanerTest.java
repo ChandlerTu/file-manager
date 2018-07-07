@@ -4,9 +4,9 @@ import org.junit.Test;
 
 public class EmptyDirectoryCleanerTest {
 
-	@Test
-	public void test() {
-		EmptyDirectoryCleaner.clean(ParentPaths.FILES);
-	}
+  @Test
+  public void test() {
+    EmptyDirectoryCleaner.clean(ParentPaths.FILES);
+  }
 
 }

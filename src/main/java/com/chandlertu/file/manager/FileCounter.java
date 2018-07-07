@@ -9,16 +9,16 @@ import java.util.stream.Stream;
 
 public class FileCounter {
 
-	public static void count(Path parent) {
-		try (Stream<Path> paths = Files.walk(parent)) {
-			Map<Boolean, Long> map = paths
-					.collect(Collectors.partitioningBy(Files::isDirectory, Collectors.counting()));
-			long fileSize = map.get(false);
-			long directorySize = map.get(true) - 1;
-			System.out.println(fileSize + " ¸öÎÄ¼þ£¬" + directorySize + " ¸öÎÄ¼þ¼Ð");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+  public static void count(Path parent) {
+    try (Stream<Path> paths = Files.walk(parent)) {
+      Map<Boolean, Long> map =
+          paths.collect(Collectors.partitioningBy(Files::isDirectory, Collectors.counting()));
+      long fileSize = map.get(false);
+      long directorySize = map.get(true) - 1;
+      System.out.println(fileSize + " ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½" + directorySize + " ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
 }
