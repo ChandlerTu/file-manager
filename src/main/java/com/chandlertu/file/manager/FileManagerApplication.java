@@ -13,7 +13,7 @@ public class FileManagerApplication {
     try (ConfigurableApplicationContext context =
         SpringApplication.run(FileManagerApplication.class, args)) {
       FileManagerService service = context.getBean(FileManagerService.class);
-      service.countFileNameExtension(Paths.get("D:\\Files"));
+      service.dir(Paths.get("E:\\Files"));
     }
   }
 

@@ -12,11 +12,20 @@ import java.util.stream.Stream;
 
 import lombok.extern.apachecommons.CommonsLog;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @CommonsLog
 @Service
 public class FileManagerService {
+
+  @Autowired
+  private DirectoryService directoryService;
+
+  public void dir(Path path) {
+    Directory directory = directoryService.list(path);
+    log.info(directory.toString());
+  }
 
   public void countFileNameExtension(Path dir) {
     try (Stream<Path> paths = Files.walk(dir)) {
