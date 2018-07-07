@@ -19,5 +19,7 @@ public class DirectoryProperties {
   private String name;
 
   private List<DirectoryProperties> subdirectoryProperties = new ArrayList<>();
+  
+  
 
 }
