@@ -20,21 +20,20 @@ public class FileManagerService {
 
   public void countFileNameExtension(Path dir) {
     try (Stream<Path> paths = Files.walk(dir)) {
-      Map<String, Long> map = paths.filter(p -> Files.isDirectory(p) == false)
+      Map<String, Long> map = paths.filter(p -> !p.toFile().isDirectory())
           .collect(Collectors.groupingBy(this::getFileNameExtension, Collectors.counting()));
-      List<Entry<String, Long>> list = new ArrayList<Entry<String, Long>>(map.entrySet());
+      List<Entry<String, Long>> list = new ArrayList<>(map.entrySet());
       list.sort(Comparator.comparing(Entry::getValue));
       list.forEach(e -> log.info(e.getKey() + ": " + e.getValue()));
       log.info(list.size() + " 个扩展名");
     } catch (Exception e) {
       log.error("", e);
     }
-
   }
 
   public String getFileNameExtension(Path path) {
     String s = path.getFileName().toString();
-    int index = s.lastIndexOf(".");
+    int index = s.lastIndexOf('.');
     if (index > 0) {
       return s.substring(index);
     } else {
