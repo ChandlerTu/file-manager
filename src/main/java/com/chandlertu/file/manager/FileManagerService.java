@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class FileManagerService {
 
   @Autowired
-  private DirectoryService directoryService;
+  private DirectoryPropertiesService directoryPropertiesService;
 
   public void countFileNameExtension(Path dir) {
     try (Stream<Path> paths = Files.walk(dir)) {
@@ -36,8 +36,8 @@ public class FileManagerService {
   }
 
   public void dir(Path path) {
-    Directory directory = directoryService.list(path);
-    log.info(directory.toString());
+    String properties = directoryPropertiesService.getDirectoryPropertiesString(path);
+    log.info(properties);
   }
 
   public String getFileNameExtension(Path path) {
